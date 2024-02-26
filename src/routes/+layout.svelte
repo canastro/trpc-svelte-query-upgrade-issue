@@ -1,19 +1,27 @@
-<script>
+<script lang="ts">
+	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import Header from './Header.svelte';
 	import './styles.css';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+
+	data.trpc.setContext(data.trpc.client, data.trpc.queryClient);
 </script>
 
-<div class="app">
-	<Header />
+<QueryClientProvider client={data.trpc.queryClient}>
+	<div class="app">
+		<Header />
 
-	<main>
-		<slot />
-	</main>
+		<main>
+			<slot />
+		</main>
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
-</div>
+		<footer>
+			<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		</footer>
+	</div>
+</QueryClientProvider>
 
 <style>
 	.app {
